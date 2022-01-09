@@ -1,0 +1,19 @@
+{
+  "required"          : true,
+  "minVersion"        : "0.8",
+  "package"           : "lol.bai.megane.runtime.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins"            : [
+    "AccessorBeaconBlockEntity",
+    "MixinMinecraftServer",
+    "MixinRegistrar"
+  ],
+  "client"            : [
+    "AccessorTooltipHandler",
+    "MixinPluginConfigScreen",
+    "MixinTitleScreen"
+  ],
+  "injectors"         : {
+    "defaultRequire": 1
+  }
+}
