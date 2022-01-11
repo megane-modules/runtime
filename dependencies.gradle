@@ -1,6 +1,6 @@
 dependencies {
     modImplementation "mcp.mobius.waila:wthit:fabric-4.4.1"
-    modImplementation "lol.bai.megane:megane-api:7.0.0"
+    modImplementation meganeModule("api:7.0.0")
 
     modCompileOnly "com.terraformersmc:modmenu:3.0.1"
     modRuntimeOnly "com.terraformersmc:modmenu:3.0.1"
