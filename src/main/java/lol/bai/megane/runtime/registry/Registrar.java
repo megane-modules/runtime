@@ -9,6 +9,7 @@ import lol.bai.megane.api.provider.ProgressProvider;
 import lol.bai.megane.api.registry.ClientRegistrar;
 import lol.bai.megane.api.registry.CommonRegistrar;
 import lol.bai.megane.runtime.provider.EnergyInfoProvider;
+import net.minecraft.block.Block;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.text.Text;
 
@@ -33,6 +34,11 @@ public enum Registrar implements CommonRegistrar, ClientRegistrar {
     @Override
     public <T> void addFluid(int priority, Class<T> clazz, FluidProvider<T> provider) {
         FLUID.add(clazz, provider, priority);
+    }
+
+    @Override
+    public void addCauldron(Block block, CauldronProvider provider) {
+        CAULDRON.add(block, provider);
     }
 
     @Override
