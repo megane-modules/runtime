@@ -4,16 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import lol.bai.megane.runtime.component.block.BeaconComponent;
-import lol.bai.megane.runtime.component.block.BlockInventoryComponent;
-import lol.bai.megane.runtime.component.block.CauldronComponent;
-import lol.bai.megane.runtime.component.block.EnergyComponent;
-import lol.bai.megane.runtime.component.block.FluidComponent;
-import lol.bai.megane.runtime.component.block.ProgressComponent;
-import lol.bai.megane.runtime.component.entity.EntityInventoryComponent;
-import lol.bai.megane.runtime.component.entity.PlayerHeadComponent;
-import lol.bai.megane.runtime.component.entity.SpawnEggComponent;
-import lol.bai.megane.runtime.component.entity.StatusEffectComponent;
+import lol.bai.megane.api.MeganeModule;
 import lol.bai.megane.runtime.data.block.BeaconData;
 import lol.bai.megane.runtime.data.block.BlockInventoryData;
 import lol.bai.megane.runtime.data.block.EnergyData;
@@ -21,12 +12,17 @@ import lol.bai.megane.runtime.data.block.FluidData;
 import lol.bai.megane.runtime.data.block.ProgressData;
 import lol.bai.megane.runtime.data.entity.EntityInventoryData;
 import lol.bai.megane.runtime.data.entity.StatusEffectData;
+import lol.bai.megane.runtime.provider.block.BeaconComponentProvider;
+import lol.bai.megane.runtime.provider.block.BlockInventoryComponentProvider;
+import lol.bai.megane.runtime.provider.block.CauldronComponentProvider;
+import lol.bai.megane.runtime.provider.block.EnergyComponentProvider;
+import lol.bai.megane.runtime.provider.block.FluidComponentProvider;
+import lol.bai.megane.runtime.provider.block.ProgressComponentProvider;
+import lol.bai.megane.runtime.provider.entity.EntityInventoryComponentProvider;
+import lol.bai.megane.runtime.provider.entity.PlayerHeadComponentProvider;
+import lol.bai.megane.runtime.provider.entity.SpawnEggComponentProvider;
+import lol.bai.megane.runtime.provider.entity.StatusEffectComponentProvider;
 import lol.bai.megane.runtime.registry.Registrar;
-import lol.bai.megane.runtime.renderer.BarRenderer;
-import lol.bai.megane.runtime.renderer.InventoryRenderer;
-import lol.bai.megane.runtime.renderer.ProgressRenderer;
-import lol.bai.megane.runtime.renderer.StatusEffectRenderer;
-import lol.bai.megane.api.MeganeModule;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import net.fabricmc.api.EnvType;
@@ -41,41 +37,29 @@ import net.minecraft.block.BeaconBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Identifier;
 
 import static lol.bai.megane.runtime.util.MeganeUtils.LOGGER;
 import static lol.bai.megane.runtime.util.MeganeUtils.MODULE_CONFIG;
-import static lol.bai.megane.runtime.util.MeganeUtils.id;
 import static mcp.mobius.waila.api.TooltipPosition.HEAD;
 import static mcp.mobius.waila.api.TooltipPosition.TAIL;
 
+@SuppressWarnings("unused")
 public class Megane implements IWailaPlugin {
-
-    public static final Identifier INVENTORY = id("inventory");
-    public static final Identifier BAR = id("bar");
-    public static final Identifier PROGRESS = id("progress");
-    public static final Identifier EFFECT = id("effect");
 
     private static final Class<Block> BLOCK = Block.class;
     private static final Class<LivingEntity> ENTITY = LivingEntity.class;
 
     @Override
     public void register(IRegistrar r) {
-        // Renderer
-        r.addRenderer(INVENTORY, new InventoryRenderer());
-        r.addRenderer(BAR, new BarRenderer());
-        r.addRenderer(PROGRESS, new ProgressRenderer());
-        r.addRenderer(EFFECT, new StatusEffectRenderer());
-
         // --- BLOCK ---
         // Component
-        r.addComponent(new EnergyComponent(), HEAD, BLOCK);
-        r.addComponent(new FluidComponent(), HEAD, BLOCK);
-        r.addComponent(new CauldronComponent(), HEAD, AbstractCauldronBlock.class);
+        r.addComponent(new EnergyComponentProvider(), HEAD, BLOCK);
+        r.addComponent(new FluidComponentProvider(), HEAD, BLOCK);
+        r.addComponent(new CauldronComponentProvider(), HEAD, AbstractCauldronBlock.class);
 
-        r.addComponent(new BlockInventoryComponent(), TAIL, BLOCK);
-        r.addComponent(new ProgressComponent(), TAIL, BLOCK);
-        r.addComponent(new BeaconComponent(), TAIL, BeaconBlock.class);
+        r.addComponent(new BlockInventoryComponentProvider(), TAIL, BLOCK);
+        r.addComponent(new ProgressComponentProvider(), TAIL, BLOCK);
+        r.addComponent(new BeaconComponentProvider(), TAIL, BeaconBlock.class);
 
 
         // Server Data
@@ -86,12 +70,12 @@ public class Megane implements IWailaPlugin {
         r.addBlockData(new BeaconData(), BeaconBlock.class);
 
         // --- ENTITY ---
-        r.addDisplayItem(new SpawnEggComponent(), ENTITY);
-        r.addDisplayItem(new PlayerHeadComponent(), PlayerEntity.class);
+        r.addIcon(new SpawnEggComponentProvider(), ENTITY);
+        r.addIcon(new PlayerHeadComponentProvider(), PlayerEntity.class);
 
         // Component
-        r.addComponent(new EntityInventoryComponent(), TAIL, ENTITY);
-        r.addComponent(new StatusEffectComponent(), TAIL, ENTITY);
+        r.addComponent(new EntityInventoryComponentProvider(), TAIL, ENTITY);
+        r.addComponent(new StatusEffectComponentProvider(), TAIL, ENTITY);
 
         // Server Data
         r.addEntityData(new EntityInventoryData(), ENTITY);

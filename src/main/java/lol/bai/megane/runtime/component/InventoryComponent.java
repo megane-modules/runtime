@@ -1,6 +1,5 @@
-package lol.bai.megane.runtime.renderer;
+package lol.bai.megane.runtime.component;
 
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -8,8 +7,7 @@ import java.util.Optional;
 
 import lol.bai.megane.runtime.util.Keys;
 import lol.bai.megane.runtime.util.MeganeUtils;
-import mcp.mobius.waila.api.ICommonAccessor;
-import mcp.mobius.waila.api.ITooltipRenderer;
+import mcp.mobius.waila.api.ITooltipComponent;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -17,17 +15,17 @@ import net.minecraft.nbt.NbtCompound;
 
 import static net.minecraft.util.registry.Registry.ITEM;
 
-public class InventoryRenderer implements ITooltipRenderer {
+public class InventoryComponent implements ITooltipComponent {
 
     private final List<ItemStack> stacks = new ArrayList<>();
 
-    private int w;
-    private int h;
+    private final int maxWidth, maxHeight;
+    private final int width, height;
 
-    @Override
-    public Dimension getSize(NbtCompound data, ICommonAccessor accessor) {
-        w = data.getInt(Keys.I_MAX_W);
-        h = data.getInt(Keys.I_MAX_H);
+    public InventoryComponent(NbtCompound data, int maxWidth, int maxHeight) {
+        this.maxWidth = maxWidth;
+        this.maxHeight = maxHeight;
+
         int size = data.getInt(Keys.I_SIZE);
         boolean showCount = data.getBoolean(Keys.I_SHOW);
 
@@ -55,15 +53,29 @@ public class InventoryRenderer implements ITooltipRenderer {
 
         stacks.sort(Comparator.comparingInt(ItemStack::getCount).reversed());
 
-        if (stacks.size() == 0)
-            return new Dimension();
-        return new Dimension(18 * Math.min(stacks.size(), w), 18 * Math.min((stacks.size() + w - 1) / w, h) + 2);
+        if (stacks.size() == 0) {
+            width = 0;
+            height = 0;
+        } else {
+            width = 18 * Math.min(stacks.size(), maxWidth);
+            height = 18 * Math.min((stacks.size() + maxWidth - 1) / maxWidth, maxHeight) + 2;
+        }
     }
 
     @Override
-    public void draw(MatrixStack matrices, NbtCompound data, ICommonAccessor accessor, int x, int y) {
-        for (int i = 0; i < Math.min(stacks.size(), w * h); i++) {
-            MeganeUtils.drawStack(stacks.get(i), x + (18 * (i % w)) + 1, y + (18 * (i / w)));
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    @Override
+    public void render(MatrixStack matrices, int x, int y, float delta) {
+        for (int i = 0; i < Math.min(stacks.size(), maxWidth * maxHeight); i++) {
+            MeganeUtils.drawStack(stacks.get(i), x + (18 * (i % maxWidth)) + 1, y + (18 * (i / maxWidth)));
         }
     }
 

@@ -1,7 +1,7 @@
-package lol.bai.megane.runtime.component.entity;
+package lol.bai.megane.runtime.provider.block;
 
-import lol.bai.megane.runtime.Megane;
-import mcp.mobius.waila.api.IEntityAccessor;
+import lol.bai.megane.runtime.component.StatusEffectComponent;
+import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.ITooltip;
 import net.minecraft.nbt.NbtCompound;
 
@@ -11,14 +11,14 @@ import static lol.bai.megane.runtime.util.Keys.S_SIZE;
 import static lol.bai.megane.runtime.util.MeganeUtils.toRoman;
 import static lol.bai.megane.runtime.util.MeganeUtils.config;
 
-public class StatusEffectComponent extends EntityComponent {
+public class BeaconComponentProvider extends BlockComponentProvider {
 
-    public StatusEffectComponent() {
+    public BeaconComponentProvider() {
         super(() -> config().effect);
     }
 
     @Override
-    protected void append(ITooltip tooltip, IEntityAccessor accessor) {
+    protected void append(ITooltip tooltip, IBlockAccessor accessor) {
         NbtCompound data = accessor.getServerData();
 
         for (int i = 0; i < data.getInt(S_SIZE); i++) {
@@ -27,7 +27,7 @@ public class StatusEffectComponent extends EntityComponent {
             data.putString(S_LV_STR + i, str);
         }
 
-        tooltip.addDrawable(Megane.EFFECT, data);
+        tooltip.addLine(new StatusEffectComponent(data));
     }
 
 }

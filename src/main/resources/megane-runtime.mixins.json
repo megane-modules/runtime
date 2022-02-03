@@ -9,7 +9,6 @@
     "MixinRegistrar"
   ],
   "client"            : [
-    "AccessorTooltipHandler",
     "MixinPluginConfigScreen",
     "MixinTitleScreen"
   ],

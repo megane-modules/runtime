@@ -1,4 +1,4 @@
-package lol.bai.megane.runtime.component.entity;
+package lol.bai.megane.runtime.provider.entity;
 
 import java.util.function.Supplier;
 
@@ -9,11 +9,11 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
 import net.minecraft.util.registry.Registry;
 
-public abstract class EntityComponent implements IEntityComponentProvider {
+public abstract class EntityComponentProvider implements IEntityComponentProvider {
 
     private final Supplier<MeganeConfig.Base> baseConfig;
 
-    protected EntityComponent(Supplier<MeganeConfig.Base> baseConfig) {
+    protected EntityComponentProvider(Supplier<MeganeConfig.Base> baseConfig) {
         this.baseConfig = baseConfig;
     }
 

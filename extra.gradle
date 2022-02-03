@@ -1,0 +1,6 @@
+sourceSets {
+    testModule {
+        compileClasspath += main.compileClasspath + main.output
+        runtimeClasspath += main.runtimeClasspath + main.output
+    }
+}

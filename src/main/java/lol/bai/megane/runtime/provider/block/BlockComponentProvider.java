@@ -1,4 +1,4 @@
-package lol.bai.megane.runtime.component.block;
+package lol.bai.megane.runtime.provider.block;
 
 import java.util.function.Supplier;
 
@@ -9,11 +9,11 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
 import net.minecraft.util.registry.Registry;
 
-public abstract class BlockComponent implements IBlockComponentProvider {
+public abstract class BlockComponentProvider implements IBlockComponentProvider {
 
     private final Supplier<MeganeConfig.Base> baseConfig;
 
-    protected BlockComponent(Supplier<MeganeConfig.Base> baseConfig) {
+    protected BlockComponentProvider(Supplier<MeganeConfig.Base> baseConfig) {
         this.baseConfig = baseConfig;
     }
 

@@ -8,7 +8,6 @@ import lol.bai.megane.api.provider.ItemProvider;
 import lol.bai.megane.api.provider.ProgressProvider;
 import lol.bai.megane.api.registry.ClientRegistrar;
 import lol.bai.megane.api.registry.CommonRegistrar;
-import lol.bai.megane.runtime.provider.EnergyInfoProvider;
 import net.minecraft.block.Block;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.text.Text;

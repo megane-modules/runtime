@@ -26,6 +26,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
@@ -103,9 +105,9 @@ public final class MeganeUtils {
     }
 
     @Environment(EnvType.CLIENT)
-    public static String fluidName(Fluid fluid) {
+    public static Text fluidName(Fluid fluid) {
         Identifier id = Registry.FLUID.getId(fluid);
-        return I18n.translate("block." + id.getNamespace() + "." + id.getPath());
+        return new TranslatableText("block." + id.getNamespace() + "." + id.getPath());
     }
 
     @Environment(EnvType.CLIENT)

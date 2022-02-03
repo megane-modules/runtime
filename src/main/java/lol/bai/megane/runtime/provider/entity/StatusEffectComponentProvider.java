@@ -1,24 +1,24 @@
-package lol.bai.megane.runtime.component.block;
+package lol.bai.megane.runtime.provider.entity;
 
-import lol.bai.megane.runtime.Megane;
-import mcp.mobius.waila.api.IBlockAccessor;
+import lol.bai.megane.runtime.component.StatusEffectComponent;
+import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.ITooltip;
 import net.minecraft.nbt.NbtCompound;
 
 import static lol.bai.megane.runtime.util.Keys.S_LV;
 import static lol.bai.megane.runtime.util.Keys.S_LV_STR;
 import static lol.bai.megane.runtime.util.Keys.S_SIZE;
-import static lol.bai.megane.runtime.util.MeganeUtils.toRoman;
 import static lol.bai.megane.runtime.util.MeganeUtils.config;
+import static lol.bai.megane.runtime.util.MeganeUtils.toRoman;
 
-public class BeaconComponent extends BlockComponent {
+public class StatusEffectComponentProvider extends EntityComponentProvider {
 
-    public BeaconComponent() {
+    public StatusEffectComponentProvider() {
         super(() -> config().effect);
     }
 
     @Override
-    protected void append(ITooltip tooltip, IBlockAccessor accessor) {
+    protected void append(ITooltip tooltip, IEntityAccessor accessor) {
         NbtCompound data = accessor.getServerData();
 
         for (int i = 0; i < data.getInt(S_SIZE); i++) {
@@ -27,7 +27,7 @@ public class BeaconComponent extends BlockComponent {
             data.putString(S_LV_STR + i, str);
         }
 
-        tooltip.addDrawable(Megane.EFFECT, data);
+        tooltip.addLine(new StatusEffectComponent(data));
     }
 
 }

@@ -1,30 +1,36 @@
-package lol.bai.megane.runtime.renderer;
-
-import java.awt.Dimension;
+package lol.bai.megane.runtime.component;
 
 import lol.bai.megane.runtime.util.Keys;
 import lol.bai.megane.runtime.util.MeganeUtils;
-import mcp.mobius.waila.api.ICommonAccessor;
-import mcp.mobius.waila.api.ITooltipRenderer;
+import mcp.mobius.waila.api.ITooltipComponent;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-import static lol.bai.megane.runtime.util.MeganeUtils.id;
-
-public class ProgressRenderer implements ITooltipRenderer {
+public class ProgressComponent implements ITooltipComponent {
 
     private static final Identifier ARROW = MeganeUtils.id("textures/arrow.png");
 
-    @Override
-    public Dimension getSize(NbtCompound data, ICommonAccessor accessor) {
-        return new Dimension((data.getInt(Keys.P_I_SIZE) + data.getInt(Keys.P_O_SIZE)) * 18 + 26, 20);
+    private final NbtCompound data;
+
+    public ProgressComponent(NbtCompound data) {
+        this.data = data;
     }
 
     @Override
-    public void draw(MatrixStack matrices, NbtCompound data, ICommonAccessor accessor, int x, int y) {
+    public int getWidth() {
+        return (data.getInt(Keys.P_I_SIZE) + data.getInt(Keys.P_O_SIZE)) * 18 + 26;
+    }
+
+    @Override
+    public int getHeight() {
+        return 20;
+    }
+
+    @Override
+    public void render(MatrixStack matrices, int x, int y, float delta) {
         int inputCount = data.getInt(Keys.P_I_SIZE);
         int outputCount = data.getInt(Keys.P_O_SIZE);
         int progressPixel = (int) (data.getInt(Keys.P_PERCENT) / 100F * 22);

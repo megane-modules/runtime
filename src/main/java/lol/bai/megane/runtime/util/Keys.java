@@ -49,19 +49,6 @@ public class Keys {
         S_SIZE    = "\u3400",
         S_ID      = "\u3401",
         S_LV      = "\u3402",
-        S_LV_STR  = "\u3403",
-
-        // Pet Owner
-        O_HAS     = "\u3500",
-        O_NAME    = "\u3501",
-
-        // Bar Rendering
-        B_STORED  = "\u3600",
-        B_MAX     = "\u3601",
-        B_UNIT    = "\u3602",
-        B_LONG    = "\u3603",
-        B_PREFIX  = "\u3604",
-        B_TL      = "\u3605",
-        B_COLOR   = "\u3606";
+        S_LV_STR  = "\u3403";
 
 }

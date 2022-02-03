@@ -1,24 +1,20 @@
-package lol.bai.megane.runtime.component.block;
+package lol.bai.megane.runtime.provider.block;
 
 import java.util.List;
 import java.util.Map;
 
 import lol.bai.megane.runtime.config.MeganeConfig;
-import lol.bai.megane.runtime.Megane;
-import lol.bai.megane.runtime.provider.EnergyInfoProvider;
+import lol.bai.megane.runtime.registry.EnergyInfoProvider;
 import lol.bai.megane.runtime.registry.Registrar;
+import lol.bai.megane.runtime.component.BarComponent;
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.ITooltip;
-import net.minecraft.client.resource.language.I18n;
+import mcp.mobius.waila.api.component.PairComponent;
+import mcp.mobius.waila.api.component.WrappedComponent;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.registry.Registry;
 
-import static lol.bai.megane.runtime.util.Keys.B_COLOR;
-import static lol.bai.megane.runtime.util.Keys.B_LONG;
-import static lol.bai.megane.runtime.util.Keys.B_MAX;
-import static lol.bai.megane.runtime.util.Keys.B_PREFIX;
-import static lol.bai.megane.runtime.util.Keys.B_STORED;
-import static lol.bai.megane.runtime.util.Keys.B_UNIT;
 import static lol.bai.megane.runtime.util.Keys.E_HAS;
 import static lol.bai.megane.runtime.util.Keys.E_MAX;
 import static lol.bai.megane.runtime.util.Keys.E_STORED;
@@ -26,11 +22,11 @@ import static lol.bai.megane.runtime.util.MeganeUtils.CONFIG;
 import static lol.bai.megane.runtime.util.MeganeUtils.MODID;
 import static lol.bai.megane.runtime.util.MeganeUtils.config;
 
-public class EnergyComponent extends BlockComponent {
+public class EnergyComponentProvider extends BlockComponentProvider {
 
-    public static final NbtCompound TAG = new NbtCompound();
+    private static final TranslatableText ENERGY_NAME = new TranslatableText("megane.energy");
 
-    public EnergyComponent() {
+    public EnergyComponentProvider() {
         super(() -> config().energy);
     }
 
@@ -72,14 +68,9 @@ public class EnergyComponent extends BlockComponent {
                 CONFIG.save();
             }
 
-            TAG.putString(B_PREFIX, provider != null ? provider.name().getString() : I18n.translate("megane.energy"));
-            TAG.putInt(B_COLOR, color);
-            TAG.putDouble(B_STORED, stored);
-            TAG.putDouble(B_MAX, max);
-            TAG.putBoolean(B_LONG, expand);
-            TAG.putString(B_UNIT, unit);
-
-            tooltip.addDrawable(Megane.BAR, TAG);
+            tooltip.addLine(new PairComponent(
+                new WrappedComponent(provider != null ? provider.name() : ENERGY_NAME),
+                new BarComponent(color, stored, max, unit, expand)));
         }
     }
 

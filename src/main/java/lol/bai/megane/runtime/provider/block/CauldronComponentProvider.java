@@ -1,4 +1,4 @@
-package lol.bai.megane.runtime.component.block;
+package lol.bai.megane.runtime.provider.block;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.text.LiteralText;
 
-public class CauldronComponent extends FluidComponent {
+public class CauldronComponentProvider extends FluidComponentProvider {
 
     @Override
     protected void append(ITooltip tooltip, IBlockAccessor accessor) {
@@ -26,9 +26,9 @@ public class CauldronComponent extends FluidComponent {
             if (provider.hasFluids()) {
                 Fluid fluid = provider.getFluid(0);
                 if (fluid != null && !fluid.matchesType(Fluids.EMPTY)) {
-                    tooltip.set(WailaConstants.OBJECT_NAME_TAG, new LiteralText(
+                    tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, new LiteralText(
                         IWailaConfig.get().getFormatting().formatBlockName(I18n.translate(Blocks.CAULDRON.getTranslationKey()))));
-                    addFluid(tooltip, accessor, DEFAULT_TAG, fluid, provider.getStored(0), provider.getMax(0));
+                    addFluid(tooltip, accessor, fluid, provider.getStored(0), provider.getMax(0));
                     return;
                 }
             }

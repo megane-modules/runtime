@@ -1,4 +1,4 @@
-package lol.bai.megane.runtime.provider;
+package lol.bai.megane.runtime.registry;
 
 import net.minecraft.text.Text;
 

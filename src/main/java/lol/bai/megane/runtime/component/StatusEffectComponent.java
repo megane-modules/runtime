@@ -1,12 +1,9 @@
-package lol.bai.megane.runtime.renderer;
-
-import java.awt.Dimension;
+package lol.bai.megane.runtime.component;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import lol.bai.megane.runtime.util.Keys;
 import lol.bai.megane.runtime.util.MeganeUtils;
-import mcp.mobius.waila.api.ICommonAccessor;
-import mcp.mobius.waila.api.ITooltipRenderer;
+import mcp.mobius.waila.api.ITooltipComponent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.texture.Sprite;
@@ -15,10 +12,14 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.nbt.NbtCompound;
 
-public class StatusEffectRenderer implements ITooltipRenderer {
+public class StatusEffectComponent implements ITooltipComponent {
 
-    @Override
-    public Dimension getSize(NbtCompound data, ICommonAccessor accessor) {
+    private final NbtCompound data;
+    private final int size;
+
+    public StatusEffectComponent(NbtCompound data) {
+        this.data = data;
+
         int size = data.getInt(Keys.S_SIZE);
         for (int i = 0; i < size; i++) {
             int id = data.getInt(Keys.S_ID + i);
@@ -27,16 +28,24 @@ public class StatusEffectRenderer implements ITooltipRenderer {
                 i--;
             }
         }
-        if (size <= 0)
-            return new Dimension();
-        return new Dimension(size * 20, 20);
+        this.size = size;
     }
 
     @Override
-    public void draw(MatrixStack matrices, NbtCompound data, ICommonAccessor accessor, int x, int y) {
+    public int getWidth() {
+        return size <= 0 ? 0 : size * 20;
+    }
+
+    @Override
+    public int getHeight() {
+        return size <= 0 ? 0 : 20;
+    }
+
+    @Override
+    public void render(MatrixStack matrices, int x, int y, float delta) {
         StatusEffectSpriteManager manager = MinecraftClient.getInstance().getStatusEffectSpriteManager();
 
-        int size = data.getInt(Keys.S_SIZE);
+        int size = this.size;
         for (int i = 0; i < size; i++) {
             String lv = data.getString(Keys.S_LV_STR + i);
             StatusEffect statusEffect = StatusEffect.byRawId(data.getInt(Keys.S_ID + i));
