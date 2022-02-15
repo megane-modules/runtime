@@ -4,6 +4,7 @@
   "version"      : "${version}",
   "authors"      : ["deirn"],
   "contributors" : [
+    "Lyaiya",
     "qsefthuopq"
   ],
   "license"      : "MIT",
