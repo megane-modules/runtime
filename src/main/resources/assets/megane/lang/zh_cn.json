@@ -25,7 +25,7 @@
   "config.megane.fluid.color"           : "栏颜色",
   "config.megane.fluid.color_desc"      : "RRGGBB",
   "config.megane.fluid.blacklist"       : "流体黑名单",
-  "config.megane.progress"              : "Progress",
+  "config.megane.progress"              : "进度",
   "config.megane.progress.showWhenZero" : "0%时显示",
   "config.megane.progress.blacklist"    : "进度黑名单",
   "config.megane.effect"                : "状态效果",
