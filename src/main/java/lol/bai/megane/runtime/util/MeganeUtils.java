@@ -150,9 +150,10 @@ public final class MeganeUtils {
         DiffuseLighting.enableGuiDepthLighting();
         RenderSystem.enableDepthTest();
         int count = stack.getCount();
-        stack.setCount(1);
+        stack.setCount(1); // workaround for when item that technically unstackable but megane stacks them anyway
         item.renderInGui(stack, x, y);
         item.renderGuiItemOverlay(text, stack, x, y, count > 1 ? suffix(count) : "");
+        stack.setCount(count); // restore original stack count for next frame
         DiffuseLighting.disableGuiDepthLighting();
         RenderSystem.disableDepthTest();
     }
