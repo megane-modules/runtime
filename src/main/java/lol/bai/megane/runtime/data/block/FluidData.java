@@ -5,13 +5,12 @@ import java.util.List;
 import lol.bai.megane.api.provider.FluidProvider;
 import lol.bai.megane.runtime.registry.Registrar;
 import lol.bai.megane.runtime.util.MeganeUtils;
+import mcp.mobius.waila.api.IServerAccessor;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
 
 import static lol.bai.megane.runtime.util.Keys.F_HAS;
 import static lol.bai.megane.runtime.util.Keys.F_ID;
@@ -26,11 +25,11 @@ public class FluidData extends BlockData {
     }
 
     @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    void append(NbtCompound data, ServerPlayerEntity player, World world, BlockEntity blockEntity) {
-        List<FluidProvider> providers = Registrar.FLUID.get(blockEntity);
+    @SuppressWarnings("rawtypes")
+    void append(NbtCompound data, IServerAccessor<BlockEntity> accessor) {
+        List<FluidProvider> providers = Registrar.FLUID.get(accessor.getTarget());
         for (FluidProvider provider : providers) {
-            provider.setContext(world, blockEntity.getPos(), player, blockEntity);
+            setContext(provider, accessor);
             if (provider.hasFluids()) {
                 data.putBoolean(F_HAS, true);
 

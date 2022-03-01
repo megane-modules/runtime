@@ -5,6 +5,7 @@ import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryEntry;
 import org.jetbrains.annotations.NotNull;
 
 public class TestItemProvider extends ItemProvider<ChestBlockEntity> {
@@ -18,7 +19,7 @@ public class TestItemProvider extends ItemProvider<ChestBlockEntity> {
 
     @Override
     public @NotNull ItemStack getStack(int slot) {
-        return slot == 0 ? NOT_RANDOM_STACK : new ItemStack(Registry.ITEM.getRandom(getWorld().random));
+        return slot == 0 ? NOT_RANDOM_STACK : new ItemStack(Registry.ITEM.getRandom(getWorld().random).map(RegistryEntry::value).orElse(Items.ACACIA_BOAT));
     }
 
 }

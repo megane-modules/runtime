@@ -13,21 +13,20 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.text.LiteralText;
 
 public class CauldronComponentProvider extends FluidComponentProvider {
 
     @Override
+    @SuppressWarnings("UnstableApiUsage")
     protected void append(ITooltip tooltip, IBlockAccessor accessor) {
         BlockState state = accessor.getBlockState();
         List<CauldronProvider> providers = Registrar.CAULDRON.get(state.getBlock());
         for (CauldronProvider provider : providers) {
-            provider.setContext(accessor.getWorld(), accessor.getPosition(), accessor.getPlayer(), null);
+            provider.setContext(accessor.getWorld(), accessor.getPosition(), accessor.getHitResult(), accessor.getPlayer(), null);
             if (provider.hasFluids()) {
                 Fluid fluid = provider.getFluid(0);
                 if (fluid != null && !fluid.matchesType(Fluids.EMPTY)) {
-                    tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, new LiteralText(
-                        IWailaConfig.get().getFormatting().formatBlockName(I18n.translate(Blocks.CAULDRON.getTranslationKey()))));
+                    tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, IWailaConfig.get().getFormatter().blockName(I18n.translate(Blocks.CAULDRON.getTranslationKey())));
                     addFluid(tooltip, accessor, fluid, provider.getStored(0), provider.getMax(0));
                     return;
                 }

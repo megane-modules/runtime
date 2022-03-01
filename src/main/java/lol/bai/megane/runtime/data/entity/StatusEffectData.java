@@ -1,18 +1,15 @@
 package lol.bai.megane.runtime.data.entity;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
+import lol.bai.megane.runtime.util.Keys;
+import lol.bai.megane.runtime.util.MeganeUtils;
+import mcp.mobius.waila.api.IServerAccessor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.world.World;
-
-import lol.bai.megane.runtime.util.Keys;
-import lol.bai.megane.runtime.util.MeganeUtils;
 
 public class StatusEffectData extends EntityData {
 
@@ -21,13 +18,13 @@ public class StatusEffectData extends EntityData {
     }
 
     @Override
-    void append(NbtCompound data, ServerPlayerEntity player, World world, Entity entity) {
-        if (entity instanceof LivingEntity livingEntity) {
+    void append(NbtCompound data, IServerAccessor<Entity> accessor) {
+        if (accessor.getTarget() instanceof LivingEntity livingEntity) {
             List<StatusEffectInstance> effects = livingEntity
                 .getStatusEffects()
                 .stream()
                 .filter(t -> t.shouldShowParticles() || MeganeUtils.config().effect.getHidden())
-                .collect(Collectors.toList());
+                .toList();
 
             data.putInt(Keys.S_SIZE, effects.size());
 

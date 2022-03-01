@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import lol.bai.megane.api.provider.FluidInfoProvider;
-import lol.bai.megane.runtime.registry.Registrar;
 import lol.bai.megane.runtime.component.BarComponent;
+import lol.bai.megane.runtime.registry.Registrar;
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.component.PairComponent;
@@ -35,7 +35,7 @@ public class FluidComponentProvider extends BlockComponentProvider {
         super(() -> config().fluid);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({"unchecked", "rawtypes", "UnstableApiUsage"})
     protected void addFluid(ITooltip tooltip, IBlockAccessor accessor, Fluid fluid, double stored, double max) {
         BlockPos pos = accessor.getPosition();
         World world = accessor.getWorld();
@@ -48,7 +48,7 @@ public class FluidComponentProvider extends BlockComponentProvider {
         FluidInfoProvider provider = providers.isEmpty() ? null : providers.get(0);
 
         if (provider != null) {
-            provider.setContext(world, pos, accessor.getPlayer(), fluid);
+            provider.setContext(world, pos, accessor.getHitResult(), accessor.getPlayer(), fluid);
         }
 
         int color;

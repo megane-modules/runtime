@@ -5,11 +5,10 @@ import java.util.List;
 import lol.bai.megane.api.provider.ItemProvider;
 import lol.bai.megane.runtime.registry.Registrar;
 import lol.bai.megane.runtime.util.MeganeUtils;
+import mcp.mobius.waila.api.IServerAccessor;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.world.World;
 
 import static lol.bai.megane.runtime.util.Keys.I_COUNT;
 import static lol.bai.megane.runtime.util.Keys.I_HAS;
@@ -27,12 +26,12 @@ public class BlockInventoryData extends BlockData {
     }
 
     @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    void append(NbtCompound data, ServerPlayerEntity player, World world, BlockEntity blockEntity) {
+    @SuppressWarnings("rawtypes")
+    void append(NbtCompound data, IServerAccessor<BlockEntity> accessor) {
         data.putBoolean(I_SHOW, MeganeUtils.config().inventory.isItemCount());
-        List<ItemProvider> providers = Registrar.INVENTORY.get(blockEntity);
+        List<ItemProvider> providers = Registrar.INVENTORY.get(accessor.getTarget());
         for (ItemProvider provider : providers) {
-            provider.setContext(world, blockEntity.getPos(), player, blockEntity);
+            setContext(provider, accessor);
             if (provider.hasItems()) {
                 data.putBoolean(I_HAS, true);
                 int size = provider.getSlotCount();

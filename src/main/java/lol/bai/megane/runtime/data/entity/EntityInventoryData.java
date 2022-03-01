@@ -6,11 +6,10 @@ import lol.bai.megane.api.provider.ItemProvider;
 import lol.bai.megane.runtime.registry.Registrar;
 import lol.bai.megane.runtime.util.Keys;
 import lol.bai.megane.runtime.util.MeganeUtils;
+import mcp.mobius.waila.api.IServerAccessor;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.world.World;
 
 import static net.minecraft.util.registry.Registry.ITEM;
 
@@ -21,11 +20,11 @@ public class EntityInventoryData extends EntityData {
     }
 
     @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    void append(NbtCompound data, ServerPlayerEntity player, World world, Entity entity) {
-        List<ItemProvider> providers = Registrar.INVENTORY.get(entity);
+    @SuppressWarnings("rawtypes")
+    void append(NbtCompound data, IServerAccessor<Entity> accessor) {
+        List<ItemProvider> providers = Registrar.INVENTORY.get(accessor.getTarget());
         for (ItemProvider provider : providers) {
-            provider.setContext(world, entity.getBlockPos(), player, entity);
+            setContext(provider, accessor);
             if (provider.hasItems()) {
                 data.putBoolean(Keys.I_HAS, true);
                 data.putBoolean(Keys.I_SHOW, MeganeUtils.config().entityInventory.isItemCount());

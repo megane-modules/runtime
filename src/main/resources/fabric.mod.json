@@ -17,9 +17,9 @@
   ],
   "depends"      : {
     "fabricloader": ">=0.12.6",
-    "minecraft"   : "1.18.x",
-    "wthit"       : "4.5.x",
-    "megane-api"  : "*"
+    "minecraft"   : ">=1.18.2",
+    "wthit"       : ">=4.7.1",
+    "megane-api"  : ">=7.1.0"
   },
   "custom"       : {
     "waila:plugins": {

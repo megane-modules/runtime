@@ -2,12 +2,10 @@ package lol.bai.megane.runtime.data.block;
 
 import lol.bai.megane.runtime.mixin.AccessorBeaconBlockEntity;
 import lol.bai.megane.runtime.util.MeganeUtils;
-import net.minecraft.block.entity.BeaconBlockEntity;
+import mcp.mobius.waila.api.IServerAccessor;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.world.World;
 
 import static lol.bai.megane.runtime.util.Keys.S_ID;
 import static lol.bai.megane.runtime.util.Keys.S_LV;
@@ -20,9 +18,8 @@ public class BeaconData extends BlockData {
     }
 
     @Override
-    void append(NbtCompound data, ServerPlayerEntity player, World world, BlockEntity blockEntity) {
-        if (blockEntity instanceof BeaconBlockEntity) {
-            AccessorBeaconBlockEntity beacon = (AccessorBeaconBlockEntity) blockEntity;
+    void append(NbtCompound data, IServerAccessor<BlockEntity> accessor) {
+        if (accessor.getTarget() instanceof AccessorBeaconBlockEntity beacon) {
             int primary = StatusEffect.getRawId(beacon.getPrimary());
             int secondary = StatusEffect.getRawId(beacon.getSecondary());
             if (primary == secondary) {

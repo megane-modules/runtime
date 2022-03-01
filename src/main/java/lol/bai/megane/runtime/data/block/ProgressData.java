@@ -2,15 +2,14 @@ package lol.bai.megane.runtime.data.block;
 
 import java.util.List;
 
-import lol.bai.megane.runtime.registry.Registrar;
 import lol.bai.megane.api.provider.ProgressProvider;
+import lol.bai.megane.runtime.registry.Registrar;
 import lol.bai.megane.runtime.util.MeganeUtils;
+import mcp.mobius.waila.api.IServerAccessor;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
 
 import static lol.bai.megane.runtime.util.Keys.P_HAS;
 import static lol.bai.megane.runtime.util.Keys.P_I_COUNT;
@@ -31,11 +30,11 @@ public class ProgressData extends BlockData {
     }
 
     @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    void append(NbtCompound data, ServerPlayerEntity player, World world, BlockEntity blockEntity) {
-        List<ProgressProvider> providers = Registrar.PROGRESS.get(blockEntity);
+    @SuppressWarnings("rawtypes")
+    void append(NbtCompound data, IServerAccessor<BlockEntity> accessor) {
+        List<ProgressProvider> providers = Registrar.PROGRESS.get(accessor.getTarget());
         for (ProgressProvider provider : providers) {
-            provider.setContext(world, blockEntity.getPos(), player, blockEntity);
+            setContext(provider, accessor);
             if (provider.hasProgress()) {
                 data.putBoolean(P_HAS, true);
 

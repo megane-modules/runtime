@@ -40,8 +40,7 @@ import net.minecraft.entity.player.PlayerEntity;
 
 import static lol.bai.megane.runtime.util.MeganeUtils.LOGGER;
 import static lol.bai.megane.runtime.util.MeganeUtils.MODULE_CONFIG;
-import static mcp.mobius.waila.api.TooltipPosition.HEAD;
-import static mcp.mobius.waila.api.TooltipPosition.TAIL;
+import static mcp.mobius.waila.api.TooltipPosition.BODY;
 
 @SuppressWarnings("unused")
 public class Megane implements IWailaPlugin {
@@ -53,13 +52,13 @@ public class Megane implements IWailaPlugin {
     public void register(IRegistrar r) {
         // --- BLOCK ---
         // Component
-        r.addComponent(new EnergyComponentProvider(), HEAD, BLOCK);
-        r.addComponent(new FluidComponentProvider(), HEAD, BLOCK);
-        r.addComponent(new CauldronComponentProvider(), HEAD, AbstractCauldronBlock.class);
+        r.addComponent(new EnergyComponentProvider(), BODY, BLOCK);
+        r.addComponent(new FluidComponentProvider(), BODY, BLOCK);
+        r.addComponent(new CauldronComponentProvider(), BODY, AbstractCauldronBlock.class);
 
-        r.addComponent(new BlockInventoryComponentProvider(), TAIL, BLOCK);
-        r.addComponent(new ProgressComponentProvider(), TAIL, BLOCK);
-        r.addComponent(new BeaconComponentProvider(), TAIL, BeaconBlock.class);
+        r.addComponent(new BlockInventoryComponentProvider(), BODY, BLOCK, Integer.MAX_VALUE);
+        r.addComponent(new ProgressComponentProvider(), BODY, BLOCK, Integer.MAX_VALUE);
+        r.addComponent(new BeaconComponentProvider(), BODY, BeaconBlock.class, Integer.MAX_VALUE);
 
 
         // Server Data
@@ -74,8 +73,8 @@ public class Megane implements IWailaPlugin {
         r.addIcon(new PlayerHeadComponentProvider(), PlayerEntity.class);
 
         // Component
-        r.addComponent(new EntityInventoryComponentProvider(), TAIL, ENTITY);
-        r.addComponent(new StatusEffectComponentProvider(), TAIL, ENTITY);
+        r.addComponent(new EntityInventoryComponentProvider(), BODY, ENTITY, Integer.MAX_VALUE);
+        r.addComponent(new StatusEffectComponentProvider(), BODY, ENTITY, Integer.MAX_VALUE);
 
         // Server Data
         r.addEntityData(new EntityInventoryData(), ENTITY);
