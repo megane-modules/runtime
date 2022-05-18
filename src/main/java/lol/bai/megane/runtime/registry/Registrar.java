@@ -1,6 +1,7 @@
 package lol.bai.megane.runtime.registry;
 
 import lol.bai.megane.api.provider.CauldronProvider;
+import lol.bai.megane.api.provider.EnergyInfoProvider;
 import lol.bai.megane.api.provider.EnergyProvider;
 import lol.bai.megane.api.provider.FluidInfoProvider;
 import lol.bai.megane.api.provider.FluidProvider;
@@ -11,6 +12,7 @@ import lol.bai.megane.api.registry.CommonRegistrar;
 import net.minecraft.block.Block;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.text.Text;
+import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("rawtypes")
 public enum Registrar implements CommonRegistrar, ClientRegistrar {
@@ -58,12 +60,33 @@ public enum Registrar implements CommonRegistrar, ClientRegistrar {
 
     @Override
     public void addEnergyInfo(String namespace, int color, String unit, Text name) {
-        ENERGY_INFO.add(namespace, new EnergyInfoProvider(color, unit, name));
+        ENERGY_INFO.add(namespace, new EnergyInfoProvider() {
+            @Override
+            public Text getName() {
+                return name;
+            }
+
+            @Override
+            public int getColor() {
+                return color;
+            }
+
+            @Nullable
+            @Override
+            public String getUnit() {
+                return unit;
+            }
+        });
     }
 
     @Override
-    public <T> void addFluidInfo(Class<T> clazz, FluidInfoProvider<T> provider) {
-        FLUID_INFO.add(clazz, provider, 0);
+    public <T> void addEnergyInfo(Class<T> clazz, EnergyInfoProvider<T> provider, int priority) {
+        ENERGY_INFO.add(clazz, provider, priority);
+    }
+
+    @Override
+    public <T> void addFluidInfo(Class<T> clazz, FluidInfoProvider<T> provider, int priority) {
+        FLUID_INFO.add(clazz, provider, priority);
     }
 
     @Override

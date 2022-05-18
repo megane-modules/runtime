@@ -45,7 +45,13 @@ public class FluidComponentProvider extends BlockComponentProvider {
 
         Identifier id = Registry.FLUID.getId(fluid);
         List<FluidInfoProvider> providers = Registrar.FLUID_INFO.get(fluid);
-        FluidInfoProvider provider = providers.isEmpty() ? null : providers.get(0);
+        FluidInfoProvider provider = null;
+
+        for (FluidInfoProvider p : providers) {
+            if (p.hasFluidInfo()) {
+                provider = p;
+            }
+        }
 
         if (provider != null) {
             provider.setContext(world, pos, accessor.getHitResult(), accessor.getPlayer(), fluid);

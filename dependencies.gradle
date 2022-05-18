@@ -1,9 +1,9 @@
 dependencies {
-    modCompileOnly "mcp.mobius.waila:wthit-api:fabric-4.7.1"
-    modImplementation "mcp.mobius.waila:wthit:fabric-4.7.1"
-    modImplementation meganeModule("api:7.1.0")
+    modCompileOnly "mcp.mobius.waila:wthit-api:fabric-4.10.3"
+    modImplementation "mcp.mobius.waila:wthit:fabric-4.10.3"
+    modImplementation meganeModule("api:7.2.1")
 
-    modRuntimeOnly "net.fabricmc.fabric-api:fabric-api:0.47.8+1.18.2"
+    modRuntimeOnly "net.fabricmc.fabric-api:fabric-api:0.51.1+1.18.2"
 
     modCompileOnly "com.terraformersmc:modmenu:3.0.1"
     modRuntimeOnly "com.terraformersmc:modmenu:3.0.1"
