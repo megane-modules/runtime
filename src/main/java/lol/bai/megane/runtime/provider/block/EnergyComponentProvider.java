@@ -34,7 +34,7 @@ public class EnergyComponentProvider extends BlockComponentProvider {
     }
 
     @Override
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({"rawtypes", "unchecked", "UnstableApiUsage"})
     protected void append(ITooltip tooltip, IBlockAccessor accessor) {
         MeganeConfig.Energy energy = config().energy;
         Map<String, Integer> colors = energy.getColors();
@@ -58,8 +58,10 @@ public class EnergyComponentProvider extends BlockComponentProvider {
             EnergyInfoProvider provider = null;
 
             for (EnergyInfoProvider p : providers) {
+                p.setContext(accessor.getWorld(), accessor.getPosition(), accessor.getHitResult(), accessor.getPlayer(), accessor.getBlockEntity());
                 if (p.hasEnergyInfo()) {
                     provider = p;
+                    break;
                 }
             }
 

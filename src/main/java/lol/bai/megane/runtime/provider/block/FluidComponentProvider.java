@@ -48,13 +48,11 @@ public class FluidComponentProvider extends BlockComponentProvider {
         FluidInfoProvider provider = null;
 
         for (FluidInfoProvider p : providers) {
+            p.setContext(world, pos, accessor.getHitResult(), accessor.getPlayer(), fluid);
             if (p.hasFluidInfo()) {
                 provider = p;
+                break;
             }
-        }
-
-        if (provider != null) {
-            provider.setContext(world, pos, accessor.getHitResult(), accessor.getPlayer(), fluid);
         }
 
         int color;
