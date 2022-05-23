@@ -32,6 +32,7 @@ public class Keys {
         F_ID      = "\u3202",
         F_STORED  = "\u3203",
         F_MAX     = "\u3204",
+        F_NBT     = "\u3404",
 
         // Progress
         P_HAS     = "\u3300",

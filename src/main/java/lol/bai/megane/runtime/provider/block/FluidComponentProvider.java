@@ -16,10 +16,12 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import static lol.bai.megane.runtime.util.Keys.F_HAS;
 import static lol.bai.megane.runtime.util.Keys.F_ID;
 import static lol.bai.megane.runtime.util.Keys.F_MAX;
+import static lol.bai.megane.runtime.util.Keys.F_NBT;
 import static lol.bai.megane.runtime.util.Keys.F_SIZE;
 import static lol.bai.megane.runtime.util.Keys.F_STORED;
 import static lol.bai.megane.runtime.util.MeganeUtils.CONFIG;
@@ -36,7 +38,7 @@ public class FluidComponentProvider extends BlockComponentProvider {
     }
 
     @SuppressWarnings({"unchecked", "rawtypes", "UnstableApiUsage"})
-    protected void addFluid(ITooltip tooltip, IBlockAccessor accessor, Fluid fluid, double stored, double max) {
+    protected void addFluid(ITooltip tooltip, IBlockAccessor accessor, Fluid fluid, @Nullable NbtCompound nbt, double stored, double max) {
         BlockPos pos = accessor.getPosition();
         World world = accessor.getWorld();
 
@@ -49,6 +51,7 @@ public class FluidComponentProvider extends BlockComponentProvider {
 
         for (FluidInfoProvider p : providers) {
             p.setContext(world, pos, accessor.getHitResult(), accessor.getPlayer(), fluid);
+            p.setFluidInfoContext(nbt);
             if (p.hasFluidInfo()) {
                 provider = p;
                 break;
@@ -81,7 +84,8 @@ public class FluidComponentProvider extends BlockComponentProvider {
                     continue;
                 double max = data.getDouble(F_MAX + i);
                 Fluid fluid = Registry.FLUID.get(data.getInt(F_ID + i));
-                addFluid(tooltip, accessor, fluid, stored, max);
+                NbtCompound nbt = data.contains(F_NBT) ? data.getCompound(F_NBT) : null;
+                addFluid(tooltip, accessor, fluid, nbt, stored, max);
             }
         }
     }

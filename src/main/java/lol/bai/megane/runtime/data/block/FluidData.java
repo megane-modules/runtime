@@ -15,6 +15,7 @@ import net.minecraft.util.registry.Registry;
 import static lol.bai.megane.runtime.util.Keys.F_HAS;
 import static lol.bai.megane.runtime.util.Keys.F_ID;
 import static lol.bai.megane.runtime.util.Keys.F_MAX;
+import static lol.bai.megane.runtime.util.Keys.F_NBT;
 import static lol.bai.megane.runtime.util.Keys.F_SIZE;
 import static lol.bai.megane.runtime.util.Keys.F_STORED;
 
@@ -44,6 +45,11 @@ public class FluidData extends BlockData {
                     data.putInt(F_ID + i, Registry.FLUID.getRawId(fluid));
                     data.putDouble(F_STORED + i, provider.getStored(j));
                     data.putDouble(F_MAX + i, provider.getMax(j));
+
+                    NbtCompound nbt = provider.getNbt(j);
+                    if (nbt != null) {
+                        data.put(F_NBT, nbt);
+                    }
                     i++;
                 }
 

@@ -27,7 +27,7 @@ public class CauldronComponentProvider extends FluidComponentProvider {
                 Fluid fluid = provider.getFluid(0);
                 if (fluid != null && !fluid.matchesType(Fluids.EMPTY)) {
                     tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, IWailaConfig.get().getFormatter().blockName(I18n.translate(Blocks.CAULDRON.getTranslationKey())));
-                    addFluid(tooltip, accessor, fluid, provider.getStored(0), provider.getMax(0));
+                    addFluid(tooltip, accessor, fluid, provider.getNbt(0), provider.getStored(0), provider.getMax(0));
                     return;
                 }
             }
