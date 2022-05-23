@@ -6,17 +6,6 @@ import java.util.Map;
 import lol.bai.megane.api.provider.FluidInfoProvider;
 import lol.bai.megane.runtime.component.BarComponent;
 import lol.bai.megane.runtime.registry.Registrar;
-import mcp.mobius.waila.api.IBlockAccessor;
-import mcp.mobius.waila.api.ITooltip;
-import mcp.mobius.waila.api.component.PairComponent;
-import mcp.mobius.waila.api.component.WrappedComponent;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import static lol.bai.megane.runtime.util.Keys.F_HAS;
 import static lol.bai.megane.runtime.util.Keys.F_ID;
@@ -28,6 +17,18 @@ import static lol.bai.megane.runtime.util.MeganeUtils.CONFIG;
 import static lol.bai.megane.runtime.util.MeganeUtils.config;
 import static lol.bai.megane.runtime.util.MeganeUtils.fluidName;
 import static lol.bai.megane.runtime.util.MeganeUtils.id;
+
+import mcp.mobius.waila.api.IBlockAccessor;
+import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.api.component.PairComponent;
+import mcp.mobius.waila.api.component.WrappedComponent;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public class FluidComponentProvider extends BlockComponentProvider {
 
@@ -59,7 +60,9 @@ public class FluidComponentProvider extends BlockComponentProvider {
         }
 
         int color;
-        if (colors.containsKey(id)) {
+        if (nbt != null && provider != null) {
+            color = provider.getColor();
+        } else if (colors.containsKey(id)) {
             color = colors.get(id);
         } else {
             color = provider == null
